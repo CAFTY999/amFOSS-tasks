@@ -1,0 +1,26 @@
+fn sieve_of_eratosthenes(n: usize) -> Vec<usize> {
+    let mut sieve = vec![true; n + 1];
+    let mut primes = Vec::new();
+
+    for p in 2..=n {
+        if sieve[p] {
+            primes.push(p);
+
+            for i in (p * p..=n).step_by(p) {
+                sieve[i] = false;
+            }
+        }
+    }
+
+    primes
+}
+
+fn main() {
+    let n = 100; // Change this to your desired number 'n'
+    let primes = sieve_of_eratosthenes(n);
+
+    println!("Prime numbers up to {}:", n);
+    for prime in &primes {
+        println!("{}", prime);
+    }
+}

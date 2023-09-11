@@ -1,0 +1,21 @@
+defmodule PrimeNumbers do
+  def sieve(n) when n < 2, do: []
+  def sieve(n) do
+    sieve(2..n, [2], [])
+  end
+
+  defp sieve([], primes, _non_primes), do: Enum.reverse(primes)
+  defp sieve([h | t], primes, non_primes) do
+    if h in non_primes do
+      sieve(t, primes, non_primes)
+    else
+      primes = [h | primes]
+      non_primes = Enum.reduce(1..(div(n, h)), non_primes, fn x, acc ->
+        Enum.uniq([x * h | acc])
+      end)
+      sieve(t, primes, non_primes)
+    end
+  end
+end
+
+

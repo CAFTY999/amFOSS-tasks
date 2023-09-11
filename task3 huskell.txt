@@ -1,0 +1,22 @@
+import Data.Array
+
+
+sieve :: Int -> [Int]
+sieve n
+  | n < 2     = []
+  | otherwise = [i | (i, True) <- assocs sieveArr]
+  where
+    sieveArr = accumArray (\_ _ -> False) True (2, n) $
+               [(p, False) | p <- [2,4..n]] ++
+               [(p*p, False) | p <- [3,5..isqrt n], sieveArr ! p]
+
+
+isqrt :: Int -> Int
+isqrt = floor . sqrt . fromIntegral
+
+main :: IO ()
+main = do
+  putStrLn "Enter a number (n):"
+  n <- readLn
+  let primes = sieve n
+  putStrLn $ "Prime numbers up to " ++ show n ++ ": " ++ show primes
